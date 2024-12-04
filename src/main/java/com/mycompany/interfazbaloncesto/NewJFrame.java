@@ -1,16 +1,27 @@
 package com.mycompany.interfazbaloncesto;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 /**
  *
  * @author walth
  */
 public class NewJFrame extends javax.swing.JFrame {
-
+    
+    WritingToExcel wte;
+    
+    
+    
     /**
      * Creates new form NewJFrame
      */
     public NewJFrame() {
+        this.wte = new WritingToExcel();
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/images/logoCalBal.png")).getImage());
     }
@@ -32,11 +43,11 @@ public class NewJFrame extends javax.swing.JFrame {
         txtNombre = new javax.swing.JLabel();
         inputNombre = new javax.swing.JTextField();
         txtTca = new javax.swing.JLabel();
-        inputTca = new javax.swing.JTextField();
         txtT3a = new javax.swing.JLabel();
-        inputT3a = new javax.swing.JTextField();
         txtTci = new javax.swing.JLabel();
-        inputTci = new javax.swing.JTextField();
+        spinnerTca = new javax.swing.JSpinner();
+        spinnerT3a = new javax.swing.JSpinner();
+        spinnerTci = new javax.swing.JSpinner();
         fondoDatos = new javax.swing.JLabel();
         PantallaResultados = new javax.swing.JPanel();
         cabeceraResultados = new javax.swing.JLabel();
@@ -49,10 +60,10 @@ public class NewJFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         botonCalcular = new javax.swing.JButton();
-        botonMostrar = new javax.swing.JButton();
+        botonExportar = new javax.swing.JButton();
         botonGlosario = new javax.swing.JButton();
-        iconoExcel = new javax.swing.JLabel();
         botonCalcular1 = new javax.swing.JButton();
+        botonExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de Estadisticas de la NBA");
@@ -92,9 +103,8 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.ipadx = 80;
         panelFormulario.add(inputNombre, gridBagConstraints);
 
@@ -103,83 +113,48 @@ public class NewJFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtTca, gridBagConstraints);
-
-        inputTca.setForeground(new java.awt.Color(204, 204, 204));
-        inputTca.setText("texto");
-        inputTca.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                inputTcaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputTcaFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 80;
-        panelFormulario.add(inputTca, gridBagConstraints);
 
         txtT3a.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtT3a.setText("T3A:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtT3a, gridBagConstraints);
-
-        inputT3a.setForeground(new java.awt.Color(204, 204, 204));
-        inputT3a.setText("texto");
-        inputT3a.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                inputT3aFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputT3aFocusLost(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 80;
-        panelFormulario.add(inputT3a, gridBagConstraints);
 
         txtTci.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTci.setText("TCI:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtTci, gridBagConstraints);
 
-        inputTci.setForeground(new java.awt.Color(204, 204, 204));
-        inputTci.setText("texto");
-        inputTci.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                inputTciFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputTciFocusLost(evt);
-            }
-        });
-        inputTci.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTciActionPerformed(evt);
-            }
-        });
+        spinnerTca.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerTca, gridBagConstraints);
+
+        spinnerT3a.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerT3a, gridBagConstraints);
+
+        spinnerTci.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 80;
-        panelFormulario.add(inputTci, gridBagConstraints);
+        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerTci, gridBagConstraints);
 
         PantallaDatos.add(panelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 280, 160));
 
@@ -255,17 +230,15 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        botonMostrar.setText("Mostrar");
-        botonMostrar.setToolTipText("");
-        botonMostrar.addActionListener(new java.awt.event.ActionListener() {
+        botonExportar.setText("Exportar");
+        botonExportar.setToolTipText("");
+        botonExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMostrarActionPerformed(evt);
+                botonExportarActionPerformed(evt);
             }
         });
 
         botonGlosario.setText("Glosario");
-
-        iconoExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoExcel.png"))); // NOI18N
 
         botonCalcular1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         botonCalcular1.setText("Resetear");
@@ -275,13 +248,25 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        botonExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoExcel.png"))); // NOI18N
+        botonExcel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                botonExcelFocusGained(evt);
+            }
+        });
+        botonExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PantallaPrincipalLayout = new javax.swing.GroupLayout(PantallaPrincipal);
         PantallaPrincipal.setLayout(PantallaPrincipalLayout);
         PantallaPrincipalLayout.setHorizontalGroup(
             PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
             .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -298,9 +283,9 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                         .addComponent(botonCalcular1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(iconoExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonExcel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonMostrar)
+                        .addComponent(botonExportar)
                         .addGap(39, 39, 39))))
         );
         PantallaPrincipalLayout.setVerticalGroup(
@@ -313,17 +298,22 @@ public class NewJFrame extends javax.swing.JFrame {
                     .addComponent(PantallaDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                        .addGap(32, 32, 32)
                         .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(iconoExcel)
-                            .addComponent(botonMostrar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(botonGlosario, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCalcular1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(18, Short.MAX_VALUE))
+                            .addGroup(PantallaPrincipalLayout.createSequentialGroup()
+                                .addGap(46, 46, 46)
+                                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botonExportar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(botonGlosario, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(PantallaPrincipalLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botonCalcular1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PantallaPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonExcel)))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -356,13 +346,35 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     
-    private void inputTciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTciActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_inputTciActionPerformed
+    private ArrayList<String> obtenerDatos(){
+        String nombre = inputNombre.getText();
+        String tca = spinnerTca.getValue().toString();
+        String t3a = spinnerT3a.getValue().toString();
+        String tci = spinnerTci.getValue().toString();
+        String fg = resultadoFG.getText();
+        String efg = resultadoEFG.getText();
+        return new ArrayList<>(Arrays.asList(nombre, tca, t3a, tci, fg.substring(0,fg.length() - 1), efg.substring(0,efg.length() - 1)));
+       
+    }    
+    private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
+            
+        ArrayList<String> datosPantalla = obtenerDatos();
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList("Nombre","TCA","T3A","TCI","%FG","%eFG"));
+        HashMap<String,String> mapDatos= new HashMap<>();
+        
+        for (int i = 0; i < datosPantalla.size();i++){
+            mapDatos.put(claves.get(i),datosPantalla.get(i));
+        }
+            
+        try {
+            wte.escribirDatosInforme(mapDatos);
+        } catch (IOException e) {
+            System.out.println("Error exportando datos: " + e.getMessage());
+        }
 
-    private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_botonMostrarActionPerformed
+        
+        
+    }//GEN-LAST:event_botonExportarActionPerformed
 
     private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
         
@@ -376,41 +388,17 @@ public class NewJFrame extends javax.swing.JFrame {
         focusLostInput(inputNombre);
     }//GEN-LAST:event_inputNombreFocusLost
 
-    private void inputTcaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTcaFocusGained
-        focusGainedInput(inputTca);
-    }//GEN-LAST:event_inputTcaFocusGained
-
-    private void inputTcaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTcaFocusLost
-        focusLostInput(inputTca);
-    }//GEN-LAST:event_inputTcaFocusLost
-
-    private void inputT3aFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputT3aFocusGained
-        focusGainedInput(inputT3a);
-    }//GEN-LAST:event_inputT3aFocusGained
-
-    private void inputT3aFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputT3aFocusLost
-        focusLostInput(inputT3a);
-    }//GEN-LAST:event_inputT3aFocusLost
-
-    private void inputTciFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTciFocusGained
-        focusGainedInput(inputTci);
-    }//GEN-LAST:event_inputTciFocusGained
-
-    private void inputTciFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputTciFocusLost
-        focusLostInput(inputTci);
-    }//GEN-LAST:event_inputTciFocusLost
-
     private void botonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCalcularActionPerformed
 
     // Obtener valores de los tres JTextFields
-    int tca = Integer.parseInt(inputTca.getText());
-    int t3a = Integer.parseInt(inputT3a.getText());
-    int tci = Integer.parseInt(inputTci.getText());
+    int tca = (int) spinnerTca.getValue();
+    int t3a = (int) spinnerT3a.getValue();
+    int tci = (int) spinnerTci.getValue();
 
     // hacer las respectivas operaiones
     double fg = ((double)tca/tci) * 100;
     double efg = ((double)(tca + (0.5 * t3a)) / tci) * 100;
-    
+   
     // Mostrar el resultado en un JLabel
     resultadoFG.setText(String.format("%.2f",fg) + "%");
     resultadoEFG.setText(String.format("%.2f",efg) + "%");
@@ -422,14 +410,19 @@ public class NewJFrame extends javax.swing.JFrame {
         resultadoFG.setText("-%");
         inputNombre.setText("texto");
         inputNombre.setForeground(new java.awt.Color(204,204,204));
-        inputTca.setText("texto");
-        inputTca.setForeground(new java.awt.Color(204,204,204));
-        inputT3a.setText("texto");
-        inputT3a.setForeground(new java.awt.Color(204,204,204));
-        inputTci.setText("texto");
-        inputTci.setForeground(new java.awt.Color(204,204,204));
+        spinnerTca.setValue((int)0);
+        spinnerT3a.setValue((int)0);
+        spinnerTci.setValue((int)0);
         
     }//GEN-LAST:event_botonCalcular1ActionPerformed
+
+    private void botonExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcelActionPerformed
+        wte.abrirExcel();
+    }//GEN-LAST:event_botonExcelActionPerformed
+
+    private void botonExcelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_botonExcelFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonExcelFocusGained
     
     /**
      * @param args the command line arguments
@@ -472,16 +465,13 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel PantallaResultados;
     private javax.swing.JButton botonCalcular;
     private javax.swing.JButton botonCalcular1;
+    private javax.swing.JButton botonExcel;
+    private javax.swing.JButton botonExportar;
     private javax.swing.JButton botonGlosario;
-    private javax.swing.JButton botonMostrar;
     private javax.swing.JLabel cabeceraDatos;
     private javax.swing.JLabel cabeceraResultados;
     private javax.swing.JLabel fondoDatos;
-    private javax.swing.JLabel iconoExcel;
     private javax.swing.JTextField inputNombre;
-    private javax.swing.JTextField inputT3a;
-    private javax.swing.JTextField inputTca;
-    private javax.swing.JTextField inputTci;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -491,6 +481,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelFormulario;
     private javax.swing.JLabel resultadoEFG;
     private javax.swing.JLabel resultadoFG;
+    private javax.swing.JSpinner spinnerT3a;
+    private javax.swing.JSpinner spinnerTca;
+    private javax.swing.JSpinner spinnerTci;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtT3a;
     private javax.swing.JLabel txtTca;
