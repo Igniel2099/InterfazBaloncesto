@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.poi.ss.usermodel.*;
@@ -21,9 +22,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  */
 public class WritingToExcel {
     private String pathExcel;
+    private String[] cabecera;
 
     public WritingToExcel() {
         this.pathExcel = "informe_excel.xlsx";
+        this.cabecera = new String[] {"Nombre","TCA","T3A","TCI","TLI","Puntos","%FG","%eFG","%TS"};
     }
 
     public String getPathExcel() {
@@ -33,72 +36,54 @@ public class WritingToExcel {
     public void setPathExcel(String pathExcel) {
         this.pathExcel = pathExcel;
     }
-   
+
+    public String[] getCabecera() {
+        return cabecera;
+    }
+
+    public void setCabecera(String[] cabecera) {
+        this.cabecera = cabecera;
+    }
+    
     public static void main(String[] args){
         WritingToExcel wte = new WritingToExcel();
         HashMap<String,String> hashMapDatos = new HashMap(){{
         put("Nombre","Lebron");
-        put("TCA","3");
+        put("TCA","78");
         put("T3A","3");
-        put("TCI","3");
-        put("%FG","100%");
-        put("%eFG","120%");
+        put("TCI","180");
+        put("TLI","4");
+        put("Puntos","300");
+        put("%FG","100");
+        put("%eFG","120");
+        put("%TS","100");
         }};
         
         try{
             
-            //wte.crearCabeceraInforme();
-            wte.escribirDatosInforme(hashMapDatos);
+            // wte.crearCabeceraInforme();
+            wte.clearSheet();
+            //wte.escribirDatosInforme(hashMapDatos);
             
         } catch(IOException e){
             System.out.println("Error creando el archivo " + e.getMessage());
         }
     }
     
-    
-    public void crearInformeExcel(String nombreArchivo) throws IOException {
-        
-        try (Workbook libroExcel = new XSSFWorkbook();){
-            
-            Sheet hoja = libroExcel.createSheet("MiHoja");
-            Row fila = hoja.createRow(0);
-            fila.createCell(0).setCellValue("Nombre");
-            fila.createCell(1).setCellValue("Edad");
-            fila.createCell(2).setCellValue("Ciudad");
-            String[][] datos = { 
-                    {"Juan", "25", "Madrid"},
-                    {"María", "30", "Barcelona"},
-                    {"Pedro", "28", "Sevilla"}
-            };
-            
-            for (int i = 0; i < datos.length; i++) {
-                fila = hoja.createRow(i + 1);
-                for (int j = 0; j < datos[i].length; j++) {
-                    fila.createCell(j).setCellValue(datos[i][j]);
-                }
-            }
-            
-            try (FileOutputStream archivo = new FileOutputStream(nombreArchivo)) {
-                libroExcel.write(archivo);
-            }
-        }
-    }
-    
-    public void crearCabeceraInforme() throws IOException {
+    public Sheet crearCabeceraInforme(Workbook libroExcel) throws IOException {
 
-        try(Workbook libroExcel = new XSSFWorkbook();){
-            Sheet hoja = libroExcel.createSheet("MiHoja");
+        
+            Sheet hoja = libroExcel.getSheetAt(0);
             Row fila = hoja.createRow(0);
-            String[] cabecera = {"Nombre","TCA","T3A","TCI","%FG","%eFG"};
-            for (int i = 0; i < cabecera.length; i++ ){
-                fila.createCell(i).setCellValue(cabecera[i]);
+            
+            for (int i = 0; i < getCabecera().length; i++ ){
+                fila.createCell(i).setCellValue(getCabecera()[i]);
             }
             
-            try(FileOutputStream archivo = new FileOutputStream(getPathExcel())){
-                libroExcel.write(archivo);
-            }
+            return hoja;
             
-        }
+      
+        
     }  
     
     public void escribirDatosInforme(HashMap<String,String> datos)throws IOException {
@@ -108,19 +93,47 @@ public class WritingToExcel {
             
             ArrayList<String> encabezados = new ArrayList();
             
-            
             Row primeraFila = hoja.getRow(0); // Obtener la primera fila
-            for (Cell cell : primeraFila) {
-                encabezados.add(cell.toString().trim()); // Agregar encabezados sin espacios extra
+            
+            
+            boolean escribible = false;
+            
+            if (primeraFila != null){
+                
+                escribible = true;
+                
+                
+                for (Cell cell : primeraFila) {
+                    
+                    encabezados.add(cell.toString().trim()); // Agregar encabezados sin espacios extra
+                }
+                
+                
+                for (int i = 0; i < encabezados.size();i++){
+                    if (!encabezados.get(i).equals(getCabecera()[i])){
+                        escribible = false;
+                        break;
+                    }
+                }
             }
             
-            for (String columna : encabezados){
-                System.out.println(datos.get(columna));
-            }
             
+            
+            
+            int newLastRowIndex = 0;
+            if (!escribible){
+                hoja = crearCabeceraInforme(libroExcel);
+                encabezados = new ArrayList(Arrays.asList(getCabecera()));
+                newLastRowIndex++;
+            }
             
             int lastRowIndex = hoja.getLastRowNum();
-            Row nuevaFila = hoja.createRow(lastRowIndex + 1);
+            newLastRowIndex += lastRowIndex;
+            
+            
+            
+            Row nuevaFila = hoja.createRow(newLastRowIndex);
+            
             
             for (int i = 0; i < encabezados.size();i++){
                 String dato = datos.get(encabezados.get(i));
@@ -137,6 +150,8 @@ public class WritingToExcel {
                 }
             }
             
+            writeAverages(libroExcel, newLastRowIndex + 1);
+            
             try (FileOutputStream achivoSalida = new FileOutputStream(getPathExcel())){
                 libroExcel.write(achivoSalida);
             }
@@ -146,6 +161,43 @@ public class WritingToExcel {
         }
     }
     
+    public void writeAverages(Workbook libroExcel, Integer rowAvgInt) throws IOException{
+        
+        
+        HashMap<Integer,String> excelColumn = new HashMap<>(){{
+          put(0,"A");
+          put(1,"B");
+          put(2,"C");
+          put(3,"D");
+          put(4,"E");
+          put(5,"F");
+          put(6,"G");
+          put(7,"H");
+          put(8,"I");
+        }};
+        
+        Sheet sheet = libroExcel.getSheetAt(0);
+        
+        Row newRow = sheet.createRow(rowAvgInt);
+        
+        for (int i = 0; i < getCabecera().length; i++){
+            if (i != 0){
+                String excelColumnStart = excelColumn.get(i) + 2;
+                String excelColumnFinal = excelColumn.get(i) + rowAvgInt;
+                String formula = "AVERAGE(" + excelColumnStart + ":" + excelColumnFinal + ")";
+
+                Cell formulaCell = newRow.createCell(i);
+                formulaCell.setCellFormula(formula);
+
+                FormulaEvaluator evaluator = libroExcel.getCreationHelper().createFormulaEvaluator();
+                evaluator.evaluateFormulaCell(formulaCell);
+            }else{
+                newRow.createCell(i).setCellValue("promedios");
+            }
+        }
+        
+        
+    }
     
     public void abrirExcel(){
         try {
@@ -165,6 +217,32 @@ public class WritingToExcel {
             }
         } catch (IOException e) {
             System.out.println("Error al intentar abrir el archivo: " + e.getMessage());
+        }
+    }
+    
+    
+    public void clearSheet() throws IOException {
+         try (FileInputStream fis = new FileInputStream(getPathExcel());
+             Workbook workbook = new XSSFWorkbook(fis)) {
+
+            // Obtén la hoja que deseas borrar (por índice o nombre)
+            Sheet hoja = workbook.getSheetAt(0); // Primera hoja (índice 0)
+
+            // Borrar todas las filas de la hoja
+            int numeroDeFilas = hoja.getLastRowNum();
+            for (int i = numeroDeFilas; i >= 0; i--) {
+                Row fila = hoja.getRow(i);
+                if (fila != null) {
+                    hoja.removeRow(fila); // Eliminar la fila
+                }
+            }
+
+            // Sobrescribir el archivo original con los cambios
+            try (FileOutputStream fos = new FileOutputStream(getPathExcel())) {
+                workbook.write(fos);
+                System.out.println("El contenido de la hoja ha sido borrado.");
+            }
+
         }
     }
     
