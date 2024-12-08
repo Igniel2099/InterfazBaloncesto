@@ -48,21 +48,32 @@ public class NewJFrame extends javax.swing.JFrame {
         spinnerTca = new javax.swing.JSpinner();
         spinnerT3a = new javax.swing.JSpinner();
         spinnerTci = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        spinnerTli = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        spinnerP = new javax.swing.JSpinner();
         fondoDatos = new javax.swing.JLabel();
         PantallaResultados = new javax.swing.JPanel();
         cabeceraResultados = new javax.swing.JLabel();
+        ContenedorCajasResultados = new javax.swing.JPanel();
+        ContendorEfg = new javax.swing.JPanel();
         resultadoEFG = new javax.swing.JLabel();
-        resultadoFG = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        ContenedorFg = new javax.swing.JPanel();
+        resultadoFG = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        ContenedorTs = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        resultadoTs = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         botonCalcular = new javax.swing.JButton();
         botonExportar = new javax.swing.JButton();
         botonGlosario = new javax.swing.JButton();
-        botonCalcular1 = new javax.swing.JButton();
+        botonResetear = new javax.swing.JButton();
         botonExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,7 +87,7 @@ public class NewJFrame extends javax.swing.JFrame {
         cabeceraDatos.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         cabeceraDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/IconoDatos.png"))); // NOI18N
         cabeceraDatos.setText("Datos:");
-        PantallaDatos.add(cabeceraDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 170, 50));
+        PantallaDatos.add(cabeceraDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 170, 50));
 
         panelFormulario.setBackground(new java.awt.Color(0, 93, 53));
         panelFormulario.setLayout(new java.awt.GridBagLayout());
@@ -152,14 +163,46 @@ public class NewJFrame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerTci, gridBagConstraints);
 
-        PantallaDatos.add(panelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 280, 160));
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel4.setText("TLI:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
+        panelFormulario.add(jLabel4, gridBagConstraints);
 
-        fondoDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoRedondeadoDatosPruebaNose.png"))); // NOI18N
-        PantallaDatos.add(fondoDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, -1, -1));
+        spinnerTli.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerTli, gridBagConstraints);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel5.setText("P:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
+        panelFormulario.add(jLabel5, gridBagConstraints);
+
+        spinnerP.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerP, gridBagConstraints);
+
+        PantallaDatos.add(panelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 280, 280));
+
+        fondoDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoRedondeadoDatosPruebaNose2.png"))); // NOI18N
+        PantallaDatos.add(fondoDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, 310));
 
         PantallaResultados.setBackground(new java.awt.Color(255, 255, 255));
         PantallaResultados.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -167,35 +210,74 @@ public class NewJFrame extends javax.swing.JFrame {
         cabeceraResultados.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         cabeceraResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/IconoResultado.png"))); // NOI18N
         cabeceraResultados.setText("Resultados:");
-        PantallaResultados.add(cabeceraResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 190, -1));
+        PantallaResultados.add(cabeceraResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 190, -1));
+
+        ContenedorCajasResultados.setBackground(new java.awt.Color(255, 255, 255));
+        ContenedorCajasResultados.setLayout(new java.awt.GridBagLayout());
+
+        ContendorEfg.setBackground(new java.awt.Color(255, 255, 255));
+        ContendorEfg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         resultadoEFG.setBackground(new java.awt.Color(255, 255, 255));
         resultadoEFG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         resultadoEFG.setForeground(new java.awt.Color(255, 255, 255));
         resultadoEFG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resultadoEFG.setText("-%");
-        PantallaResultados.add(resultadoEFG, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 120, 60));
+        ContendorEfg.add(resultadoEFG, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 60));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel10.setText("%eFG:");
+        ContendorEfg.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoResultados2.png"))); // NOI18N
+        ContendorEfg.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        ContenedorCajasResultados.add(ContendorEfg, new java.awt.GridBagConstraints());
+
+        ContenedorFg.setBackground(new java.awt.Color(255, 255, 255));
+        ContenedorFg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         resultadoFG.setBackground(new java.awt.Color(255, 255, 255));
         resultadoFG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         resultadoFG.setForeground(new java.awt.Color(255, 255, 255));
         resultadoFG.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         resultadoFG.setText("-%");
-        PantallaResultados.add(resultadoFG, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 130, 60));
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel10.setText("%eFG:");
-        PantallaResultados.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, -1, -1));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoResultados2.png"))); // NOI18N
-        PantallaResultados.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 91, -1, -1));
+        ContenedorFg.add(resultadoFG, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 60));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel9.setText("%FG:");
-        PantallaResultados.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 140, -1, -1));
+        ContenedorFg.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoResultados1.png"))); // NOI18N
-        PantallaResultados.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
+        ContenedorFg.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        ContenedorCajasResultados.add(ContenedorFg, new java.awt.GridBagConstraints());
+
+        ContenedorTs.setBackground(new java.awt.Color(255, 255, 255));
+        ContenedorTs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("%TS");
+        ContenedorTs.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, -1));
+
+        resultadoTs.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        resultadoTs.setForeground(new java.awt.Color(255, 255, 255));
+        resultadoTs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultadoTs.setText("-%");
+        ContenedorTs.add(resultadoTs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 280, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/fondoTs.png"))); // NOI18N
+        jLabel6.setToolTipText("");
+        ContenedorTs.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        ContenedorCajasResultados.add(ContenedorTs, gridBagConstraints);
+
+        PantallaResultados.add(ContenedorCajasResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 300, 300));
 
         jPanel2.setBackground(new java.awt.Color(0, 93, 53));
 
@@ -211,8 +293,8 @@ public class NewJFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 684, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,11 +322,11 @@ public class NewJFrame extends javax.swing.JFrame {
 
         botonGlosario.setText("Glosario");
 
-        botonCalcular1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        botonCalcular1.setText("Resetear");
-        botonCalcular1.addActionListener(new java.awt.event.ActionListener() {
+        botonResetear.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        botonResetear.setText("Resetear");
+        botonResetear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCalcular1ActionPerformed(evt);
+                botonResetearActionPerformed(evt);
             }
         });
 
@@ -265,66 +347,63 @@ public class NewJFrame extends javax.swing.JFrame {
         PantallaPrincipalLayout.setHorizontalGroup(
             PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 4, Short.MAX_VALUE))
-            .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                 .addGap(27, 27, 27)
-                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                         .addComponent(botonGlosario)
-                        .addGap(134, 134, 134)
-                        .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PantallaDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                        .addComponent(PantallaResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18))
-                    .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                        .addComponent(botonCalcular1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PantallaDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PantallaResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PantallaPrincipalLayout.createSequentialGroup()
+                        .addComponent(botonResetear)
+                        .addGap(70, 70, 70)
                         .addComponent(botonExcel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonExportar)
-                        .addGap(39, 39, 39))))
+                        .addComponent(botonExportar)))
+                .addContainerGap(55, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         PantallaPrincipalLayout.setVerticalGroup(
             PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PantallaResultados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PantallaDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
                 .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PantallaPrincipalLayout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(botonGlosario)
+                            .addComponent(botonExportar))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(PantallaPrincipalLayout.createSequentialGroup()
                         .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(botonResetear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(botonExportar, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(botonGlosario, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(PantallaPrincipalLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(PantallaPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonCalcular1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PantallaPrincipalLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonExcel)))
-                .addContainerGap())
+                                .addGap(28, 28, 28)
+                                .addComponent(botonExcel)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PantallaPrincipal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PantallaPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 578, Short.MAX_VALUE)
         );
 
         pack();
@@ -351,15 +430,31 @@ public class NewJFrame extends javax.swing.JFrame {
         String tca = spinnerTca.getValue().toString();
         String t3a = spinnerT3a.getValue().toString();
         String tci = spinnerTci.getValue().toString();
+        String tli = spinnerTli.getValue().toString();
+        String p = spinnerP.getValue().toString();
         String fg = resultadoFG.getText();
         String efg = resultadoEFG.getText();
-        return new ArrayList<>(Arrays.asList(nombre, tca, t3a, tci, fg.substring(0,fg.length() - 1), efg.substring(0,efg.length() - 1)));
-       
+        String ts = resultadoTs.getText();
+        
+        return new ArrayList<>(Arrays.asList(
+                nombre, 
+                tca, 
+                t3a, 
+                tci, 
+                tli, 
+                p, 
+                fg.substring(0,fg.length() - 1), 
+                efg.substring(0,efg.length() - 1), 
+                ts.substring(0,ts.length()-1)
+        ));
     }    
+    
+   
+    
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
             
         ArrayList<String> datosPantalla = obtenerDatos();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList("Nombre","TCA","T3A","TCI","%FG","%eFG"));
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
         HashMap<String,String> mapDatos= new HashMap<>();
         
         for (int i = 0; i < datosPantalla.size();i++){
@@ -394,27 +489,33 @@ public class NewJFrame extends javax.swing.JFrame {
     int tca = (int) spinnerTca.getValue();
     int t3a = (int) spinnerT3a.getValue();
     int tci = (int) spinnerTci.getValue();
+    int tli = (int) spinnerTli.getValue();
+    int p = (int) spinnerP.getValue();
 
     // hacer las respectivas operaiones
     double fg = ((double)tca/tci) * 100;
     double efg = ((double)(tca + (0.5 * t3a)) / tci) * 100;
-   
+    double ts = ((double) p / (2* (tci + 0.44 * tli))) * 100;
     // Mostrar el resultado en un JLabel
     resultadoFG.setText(String.format("%.2f",fg) + "%");
     resultadoEFG.setText(String.format("%.2f",efg) + "%");
+    resultadoTs.setText(String.format("%.2f",ts) + "%");
       
     }//GEN-LAST:event_botonCalcularActionPerformed
 
-    private void botonCalcular1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCalcular1ActionPerformed
+    private void botonResetearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonResetearActionPerformed
         resultadoEFG.setText("-%");
         resultadoFG.setText("-%");
+        resultadoTs.setText("-%");
         inputNombre.setText("texto");
         inputNombre.setForeground(new java.awt.Color(204,204,204));
         spinnerTca.setValue((int)0);
         spinnerT3a.setValue((int)0);
         spinnerTci.setValue((int)0);
+        spinnerTli.setValue((int)0);
+        spinnerP.setValue((int)0);
         
-    }//GEN-LAST:event_botonCalcular1ActionPerformed
+    }//GEN-LAST:event_botonResetearActionPerformed
 
     private void botonExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcelActionPerformed
         wte.abrirExcel();
@@ -460,14 +561,18 @@ public class NewJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ContendorEfg;
+    private javax.swing.JPanel ContenedorCajasResultados;
+    private javax.swing.JPanel ContenedorFg;
+    private javax.swing.JPanel ContenedorTs;
     private javax.swing.JPanel PantallaDatos;
     private javax.swing.JPanel PantallaPrincipal;
     private javax.swing.JPanel PantallaResultados;
     private javax.swing.JButton botonCalcular;
-    private javax.swing.JButton botonCalcular1;
     private javax.swing.JButton botonExcel;
     private javax.swing.JButton botonExportar;
     private javax.swing.JButton botonGlosario;
+    private javax.swing.JButton botonResetear;
     private javax.swing.JLabel cabeceraDatos;
     private javax.swing.JLabel cabeceraResultados;
     private javax.swing.JLabel fondoDatos;
@@ -476,14 +581,21 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel panelFormulario;
     private javax.swing.JLabel resultadoEFG;
     private javax.swing.JLabel resultadoFG;
+    private javax.swing.JLabel resultadoTs;
+    private javax.swing.JSpinner spinnerP;
     private javax.swing.JSpinner spinnerT3a;
     private javax.swing.JSpinner spinnerTca;
     private javax.swing.JSpinner spinnerTci;
+    private javax.swing.JSpinner spinnerTli;
     private javax.swing.JLabel txtNombre;
     private javax.swing.JLabel txtT3a;
     private javax.swing.JLabel txtTca;
