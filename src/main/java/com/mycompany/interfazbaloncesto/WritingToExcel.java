@@ -26,7 +26,7 @@ public class WritingToExcel {
 
     public WritingToExcel() {
         this.pathExcel = "informe_excel.xlsx";
-        this.cabecera = new String[] {"Nombre","TCA","T3A","TCI","TLI","Puntos","%FG","%eFG","%TS"};
+        this.cabecera = new String[] {"Nombre","TCA","T3A","TCI","TLI","Puntos","%FG","%eFG","%TS","Valoration"};
     }
 
     public String getPathExcel() {
@@ -73,14 +73,14 @@ public class WritingToExcel {
     public Sheet crearCabeceraInforme(Workbook libroExcel) throws IOException {
 
         
-            Sheet hoja = libroExcel.getSheetAt(0);
-            Row fila = hoja.createRow(0);
-            
-            for (int i = 0; i < getCabecera().length; i++ ){
-                fila.createCell(i).setCellValue(getCabecera()[i]);
-            }
-            
-            return hoja;
+        Sheet hoja = libroExcel.getSheetAt(0);
+        Row fila = hoja.createRow(0);
+
+        for (int i = 0; i < getCabecera().length; i++ ){
+            fila.createCell(i).setCellValue(getCabecera()[i]);
+        }
+
+        return hoja;
             
       
         
@@ -174,6 +174,7 @@ public class WritingToExcel {
           put(6,"G");
           put(7,"H");
           put(8,"I");
+          put(9,"J");
         }};
         
         Sheet sheet = libroExcel.getSheetAt(0);
