@@ -13,6 +13,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import java.awt.Color;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSpinner;
 /**
  *
@@ -47,7 +48,6 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         setIconImage(new ImageIcon(getClass().getResource("/images/logoCalBal.png")).getImage());
         
         // mini graficos
-        
         generateGenericGraphics();
     }
 
@@ -68,8 +68,10 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         tabEstadisticas = new javax.swing.JPanel();
         PantallaDatos = new javax.swing.JPanel();
         panelFormulario1 = new javax.swing.JPanel();
-        txtNombre = new javax.swing.JLabel();
-        inputNombre = new javax.swing.JTextField();
+        txtEquipo = new javax.swing.JLabel();
+        comboEquipos = new javax.swing.JComboBox<>();
+        txtJugador = new javax.swing.JLabel();
+        comboJugadores = new javax.swing.JComboBox<>();
         txtAsis = new javax.swing.JLabel();
         spinnerAsis = new javax.swing.JSpinner();
         txtReb = new javax.swing.JLabel();
@@ -86,8 +88,6 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         spinnerT2a = new javax.swing.JSpinner();
         txtT3a = new javax.swing.JLabel();
         spinnerT3a = new javax.swing.JSpinner();
-        txtBp = new javax.swing.JLabel();
-        spinnerBp = new javax.swing.JSpinner();
         fondoDatos = new javax.swing.JLabel();
         PantallaDatos1 = new javax.swing.JPanel();
         panelFormulario = new javax.swing.JPanel();
@@ -107,6 +107,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         spinnerTci = new javax.swing.JSpinner();
         txtP = new javax.swing.JLabel();
         spinnerP = new javax.swing.JSpinner();
+        txtBp = new javax.swing.JLabel();
+        spinnerBp = new javax.swing.JSpinner();
         fondoDatos1 = new javax.swing.JLabel();
         botonCalcular = new javax.swing.JButton();
         botonGlosario = new javax.swing.JButton();
@@ -183,45 +185,49 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         panelFormulario1.setToolTipText("");
         panelFormulario1.setLayout(new java.awt.GridBagLayout());
 
-        txtNombre.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtNombre.setText("Nombre:");
+        txtEquipo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtEquipo.setText("Equipo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.ipadx = 15;
-        panelFormulario1.add(txtNombre, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
+        panelFormulario1.add(txtEquipo, gridBagConstraints);
 
-        inputNombre.setForeground(new java.awt.Color(204, 204, 204));
-        inputNombre.setText("texto");
-        inputNombre.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                inputNombreFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                inputNombreFocusLost(evt);
-            }
-        });
-        inputNombre.addActionListener(new java.awt.event.ActionListener() {
+        comboEquipos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Angeles Lakers", "Golden State Warriors" }));
+        comboEquipos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputNombreActionPerformed(evt);
+                comboEquiposActionPerformed(evt);
             }
         });
+        panelFormulario1.add(comboEquipos, new java.awt.GridBagConstraints());
+
+        txtJugador.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtJugador.setText("Jugador:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(4, 0, 7, 13);
+        panelFormulario1.add(txtJugador, gridBagConstraints);
+
+        comboJugadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LeBron James", "Anthony Davis", "Austin Reaves", "D Angelo Russell", "Rui Hachimura" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 80;
-        panelFormulario1.add(inputNombre, gridBagConstraints);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario1.add(comboJugadores, gridBagConstraints);
 
         txtAsis.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtAsis.setText("Asis:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtAsis, gridBagConstraints);
 
         spinnerAsis.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerAsis, gridBagConstraints);
@@ -230,14 +236,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtReb.setText("Reb:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtReb, gridBagConstraints);
 
         spinnerReb.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerReb, gridBagConstraints);
@@ -246,14 +252,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtTf.setText("TF:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtTf, gridBagConstraints);
 
         spinnerTf.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerTf, gridBagConstraints);
@@ -262,14 +268,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtBr.setText("BR:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtBr, gridBagConstraints);
 
         spinnerBr.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerBr, gridBagConstraints);
@@ -278,14 +284,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtFr.setText("FR:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtFr, gridBagConstraints);
 
         spinnerFr.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerFr, gridBagConstraints);
@@ -294,7 +300,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtT1A.setText("T1A:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtT1A, gridBagConstraints);
 
@@ -306,7 +312,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerT1a, gridBagConstraints);
@@ -315,7 +321,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtT2a.setText("T2A:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtT2a, gridBagConstraints);
 
@@ -327,7 +333,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerT2a, gridBagConstraints);
@@ -336,7 +342,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtT3a.setText("T3A:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario1.add(txtT3a, gridBagConstraints);
 
@@ -348,28 +354,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario1.add(spinnerT3a, gridBagConstraints);
 
-        txtBp.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtBp.setText("BP:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
-        panelFormulario1.add(txtBp, gridBagConstraints);
-
-        spinnerBp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 9;
-        gridBagConstraints.ipadx = 20;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        panelFormulario1.add(spinnerBp, gridBagConstraints);
-
-        PantallaDatos.add(panelFormulario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 440));
+        PantallaDatos.add(panelFormulario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 280, 440));
 
         fondoDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoDatos.png"))); // NOI18N
         PantallaDatos.add(fondoDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 500));
@@ -385,14 +375,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtTc.setText("TC:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtTc, gridBagConstraints);
 
         spinnerTc.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerTc, gridBagConstraints);
@@ -401,14 +391,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         jLabel11.setText("FP:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(jLabel11, gridBagConstraints);
 
         spinnerFp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerFp, gridBagConstraints);
@@ -417,14 +407,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtTli.setText("TLI:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtTli, gridBagConstraints);
 
         spinnerTli.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerTli, gridBagConstraints);
@@ -433,7 +423,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtT2i.setText("T2I:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtT2i, gridBagConstraints);
 
@@ -445,7 +435,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerT2i, gridBagConstraints);
@@ -454,7 +444,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtT3i.setText("T3I:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtT3i, gridBagConstraints);
 
@@ -466,7 +456,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerT3i, gridBagConstraints);
@@ -475,7 +465,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtTca.setText("TCA:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtTca, gridBagConstraints);
 
@@ -487,7 +477,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerTca, gridBagConstraints);
@@ -512,19 +502,35 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         txtP.setText("P:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
         panelFormulario.add(txtP, gridBagConstraints);
 
         spinnerP.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.ipadx = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelFormulario.add(spinnerP, gridBagConstraints);
 
-        PantallaDatos1.add(panelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 280, 400));
+        txtBp.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        txtBp.setText("BP:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(8, 0, 3, 0);
+        panelFormulario.add(txtBp, gridBagConstraints);
+
+        spinnerBp.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        panelFormulario.add(spinnerBp, gridBagConstraints);
+
+        PantallaDatos1.add(panelFormulario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 280, 440));
 
         fondoDatos1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoDatos.png"))); // NOI18N
         PantallaDatos1.add(fondoDatos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 500));
@@ -881,8 +887,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         }
     }
     
-    private ArrayList<String> obtenerDatos(){
-        String nombre = inputNombre.getText();
+    private ArrayList<String> getData(){
+        String equipo = (String) comboEquipos.getSelectedItem();
+        String jugador = (String) comboJugadores.getSelectedItem();
         String tca = spinnerTca.getValue().toString();
         String t3a = spinnerT3a.getValue().toString();
         String tci = spinnerTci.getValue().toString();
@@ -894,7 +901,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         String valoration = resultadoValoration.getText();
         
         return new ArrayList<>(Arrays.asList(
-                nombre, 
+                equipo,
+                jugador, 
                 tca, 
                 t3a, 
                 tci, 
@@ -911,24 +919,26 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
             
-        ArrayList<String> datosPantalla = obtenerDatos();
+        ArrayList<String> datosPantalla = getData();
         ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
         HashMap<String,String> mapDatos= new HashMap<>();
         
         for (int i = 0; i < datosPantalla.size();i++){
             mapDatos.put(claves.get(i),datosPantalla.get(i));
         }
+        
         System.out.println(datosPantalla);
         System.out.println(claves);
         System.out.println(mapDatos);
         
         try {
-            wte.escribirDatosInforme(mapDatos);
+            String[] teams = {"Angeles Lakers", "Golden State Warriors"};
+            String pathExcel = wte.selectionPathExcel(teams,mapDatos);
+            
+            wte.escribirDatosInforme(pathExcel,mapDatos);
         } catch (IOException e) {
             System.out.println("Error exportando datos: " + e.getMessage());
         }
-
-        
         
     }//GEN-LAST:event_botonExportarActionPerformed
 
@@ -993,8 +1003,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         resultadoFG.setText("-%");
         resultadoTs.setText("-%");
         resultadoValoration.setText("-%");
-        inputNombre.setText("texto");
-        inputNombre.setForeground(new java.awt.Color(204,204,204));
+        //inputNombre.setText("texto");
+        //inputNombre.setForeground(new java.awt.Color(204,204,204));
         JSpinner[] spinners = {spinnerAsis,spinnerReb,spinnerTf,spinnerBr,spinnerFr,spinnerT1a,spinnerT2a,spinnerT3a,spinnerBp,spinnerTc,spinnerFp,spinnerTli,spinnerT2i,spinnerT3i,spinnerTca,spinnerTci,spinnerP};
         for (JSpinner spinner : spinners){
             spinner.setValue((int) 0);
@@ -1005,31 +1015,41 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonResetearActionPerformed
 
     private void botonExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcelActionPerformed
-        wte.abrirExcel();
+        ArrayList<String> datosPantalla = getData();
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
+        HashMap<String,String> mapDatos= new HashMap<>();
+        
+        for (int i = 0; i < datosPantalla.size();i++){
+            mapDatos.put(claves.get(i),datosPantalla.get(i));
+        }
+        
+        String[] teams = {"Angeles Lakers", "Golden State Warriors"};
+        String pathExcel = wte.selectionPathExcel(teams,mapDatos);
+        
+        wte.abrirExcel(pathExcel);
     }//GEN-LAST:event_botonExcelActionPerformed
 
     private void botonExcelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_botonExcelFocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_botonExcelFocusGained
 
-    private void inputNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputNombreActionPerformed
-        
-    }//GEN-LAST:event_inputNombreActionPerformed
-
-    private void inputNombreFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombreFocusLost
-        focusLostInput(inputNombre);
-    }//GEN-LAST:event_inputNombreFocusLost
-
-    private void inputNombreFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputNombreFocusGained
-        focusGainedInput(inputNombre);
-    }//GEN-LAST:event_inputNombreFocusGained
-
     private void botonExcel1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_botonExcel1FocusGained
         // TODO add your handling code here:
     }//GEN-LAST:event_botonExcel1FocusGained
 
     private void botonExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcel1ActionPerformed
-        wte.abrirExcel();
+        ArrayList<String> datosPantalla = getData();
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
+        HashMap<String,String> mapDatos= new HashMap<>();
+        
+        for (int i = 0; i < datosPantalla.size();i++){
+            mapDatos.put(claves.get(i),datosPantalla.get(i));
+        }
+        
+        String[] teams = {"Angeles Lakers", "Golden State Warriors"};
+        String pathExcel = wte.selectionPathExcel(teams,mapDatos);
+        
+        wte.abrirExcel(pathExcel);
     }//GEN-LAST:event_botonExcel1ActionPerformed
     
     /**
@@ -1105,6 +1125,31 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         int currentValue = handleSpinnerChange((JSpinner) evt.getSource(),spinnerTci);
         mapOldValuesSpinners.replace((JSpinner) evt.getSource(), currentValue);
     }//GEN-LAST:event_spinnerT3iStateChanged
+
+    private void comboEquiposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboEquiposActionPerformed
+        String selection = (String) comboEquipos.getSelectedItem();
+      
+        if (selection.equals("Angeles Lakers")) {
+                comboJugadores.setModel( 
+                        new DefaultComboBoxModel<>(new String[]{
+                            "LeBron James", 
+                            "Anthony Davis", 
+                            "Austin Reaves", 
+                            "D Angelo Russell", 
+                            "Rui Hachimura"
+                        }));
+        }else if(selection.equals("Golden State Warriors")){            
+                comboJugadores.setModel( 
+                        new DefaultComboBoxModel<>(new String[]{
+                            "Stephen Curry",
+                            "Klay Thompson",
+                            "Draymond Green",
+                            "Andrew Wiggins",
+                            "Chris Paul"
+                        }));
+                
+        }
+    }//GEN-LAST:event_comboEquiposActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1156,6 +1201,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JButton botonResetear;
     private javax.swing.JLabel cabeceraDatos;
     private javax.swing.JLabel cabeceraResultados;
+    private javax.swing.JComboBox<String> comboEquipos;
+    private javax.swing.JComboBox<String> comboJugadores;
     private javax.swing.JPanel donaEfg;
     private javax.swing.JPanel donaFg;
     private javax.swing.JPanel donaTs;
@@ -1166,7 +1213,6 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel fondoFg;
     private javax.swing.JLabel fondoTs;
     private javax.swing.JLabel fondoValoration;
-    private javax.swing.JTextField inputNombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -1204,9 +1250,10 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel txtBp;
     private javax.swing.JLabel txtBr;
     private javax.swing.JLabel txtEfg;
+    private javax.swing.JLabel txtEquipo;
     private javax.swing.JLabel txtFg;
     private javax.swing.JLabel txtFr;
-    private javax.swing.JLabel txtNombre;
+    private javax.swing.JLabel txtJugador;
     private javax.swing.JLabel txtP;
     private javax.swing.JLabel txtReb;
     private javax.swing.JLabel txtT1A;
