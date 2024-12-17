@@ -32,7 +32,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     CreateLineChart clc;
     
     HashMap<JSpinner,Integer> mapOldValuesSpinners;
-    
+    HashMap<String, HashMap<String, String>> teamsDirectory;
     
     
     /**
@@ -50,11 +50,15 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         
         
         this.mapOldValuesSpinners = new HashMap<>();
+        this.teamsDirectory = getDirectoryTreeTeams();
         
         initComponents();
         
         JSpinner[] spinners = {spinnerT1a,spinnerT2a,spinnerT3a,spinnerTli,spinnerT2i,spinnerT3i,spinnerP};
         
+        // inicializa los spinner a 0 en el mapa de los valores viejos de spinner
+        // esto es para que despues estos valores me ayuden a la hora de autocompletar
+        // ciertos spinners con datos relecantes
         for (JSpinner spinner : spinners){
             mapOldValuesSpinners.put(spinner,0);
         }
@@ -883,6 +887,10 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Genera un los graficos de las donas de manera generica, cuando ya no hay
+     * ningun valor que pueda convertir.
+     */
     private void generateGenericGraphics(){
         DefaultPieDataset<String> dataset = cg.createDataset(100.0, 0.0);
         
@@ -894,6 +902,11 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Añade un grafico a un panel, el que yo quiera.
+     * @param chart
+     * @param panel 
+     */
     private void addChartToPanel(JFreeChart chart, JPanel panel) {
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setPreferredSize(panel.getSize()); // Ajusta el tamaño al del panel
@@ -904,22 +917,10 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         panel.validate();
     }
     
-    private void focusGainedInput(javax.swing.JTextField input ){
-        String texto = input.getText();
-        if (texto.equals("texto")){
-            input.setText("");
-            input.setForeground(new java.awt.Color(0,0,0));
-        }
-    }
-    
-    private void focusLostInput(javax.swing.JTextField input){
-        String texto = input.getText();
-        if (texto.equals("")){
-            input.setText("texto");
-            input.setForeground(new java.awt.Color(204,204,204));
-        }
-    }
-    
+    /**
+     * Este metodo obtiene todos los datos importantes y lo guarda en una lista
+     * @return Retorna la lista con los datos relevantes.
+     */
     private ArrayList<String> getData(){
         String equipo = (String) comboEquipos.getSelectedItem();
         String jugador = (String) comboJugadores.getSelectedItem();
@@ -948,27 +949,76 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         ));
     }    
     
+    /**
+     * Este metodo obtiene todos los datos y los ordenada en un HashMap,
+     * ordenada cada cabecera con su respectivo dato.
+     * @return 
+     */
+    private HashMap<String,String> getHashMapData(){
+        ArrayList<String> data = getData();
+        ArrayList<String> keys = new ArrayList<>(Arrays.asList(wte.getCabecera()));
+        HashMap<String,String> hashMapData= new HashMap<>();
+        
+        for (int i = 0; i < data.size();i++){
+            hashMapData.put(keys.get(i),data.get(i));
+        }
+        
+        return hashMapData;
+    }
+    
+    /**
+     * Este método mapea el arbol de directorios de los equipos, con sus respectivos
+     * jugadores
+     * @return me devuelve un HashMap
+     */
+    private HashMap<String, HashMap<String, String>> getDirectoryTreeTeams(){
+        HashMap<String, String> playerPathsLakers = new HashMap<>();
+        // Rutas para los Angeles Lakers
+        playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
+        playerPathsLakers.put("Anthony Davis", "src/main/resources/images/graficas/Angeles Lakers/Anthony Davis/");
+        playerPathsLakers.put("Austin Reaves", "src/main/resources/images/graficas/Angeles Lakers/Austin Reaves/");
+        playerPathsLakers.put("D Angelo Russell", "src/main/resources/images/graficas/Angeles Lakers/D Angelo Russell/");
+        playerPathsLakers.put("Rui Hachimura", "src/main/resources/images/graficas/Angeles Lakers/Rui Hachimura/");
+
+        HashMap<String, String> playerPathsWarriors = new HashMap<>();
+        // Rutas para los Golden State Warriors
+        playerPathsWarriors.put("Stephen Curry", "src/main/resources/images/graficas/Golden State Warriors/Stephen Curry/");
+        playerPathsWarriors.put("Klay Thompson", "src/main/resources/images/graficas/Golden State Warriors/Klay Thompson/");
+        playerPathsWarriors.put("Draymond Green", "src/main/resources/images/graficas/Golden State Warriors/Draymond Green/");
+        playerPathsWarriors.put("Andrew Wiggins", "src/main/resources/images/graficas/Golden State Warriors/Andrew Wiggins/");
+        playerPathsWarriors.put("Chris Paul", "src/main/resources/images/graficas/Golden State Warriors/Chris Paul/");
+
+        HashMap<String, HashMap<String, String>> teams = new HashMap<>();
+        teams.put("Angeles Lakers", playerPathsLakers);
+        teams.put("Golden State Warriors", playerPathsWarriors);
+        
+        return teams;
+    }
+    
+    /**
+     * Este metodo es la acción que quiero que haga el botond excel
+     */
+    private void actionButtonExcel(){
+        HashMap<String,String> mapData= getHashMapData();
+        
+        String[] teams = {"Angeles Lakers", "Golden State Warriors"};
+        String pathExcel = wte.selectionPathExcel(teams,mapData);
+        
+        wte.abrirExcel(pathExcel);
+    }
    
     
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
             
-        ArrayList<String> datosPantalla = getData();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
-        HashMap<String,String> mapDatos= new HashMap<>();
+        HashMap<String,String> mapData= getHashMapData();
         
-        for (int i = 0; i < datosPantalla.size();i++){
-            mapDatos.put(claves.get(i),datosPantalla.get(i));
-        }
-        
-        System.out.println(datosPantalla);
-        System.out.println(claves);
-        System.out.println(mapDatos);
+        System.out.println(mapData);
         
         try {
             String[] teams = {"Angeles Lakers", "Golden State Warriors"};
-            String pathExcel = wte.selectionPathExcel(teams,mapDatos);
+            String pathExcel = wte.selectionPathExcel(teams,mapData);
             
-            wte.escribirDatosInforme(pathExcel,mapDatos);
+            wte.escribirDatosInforme(pathExcel,mapData);
         } catch (IOException e) {
             System.out.println("Error exportando datos: " + e.getMessage());
         }
@@ -1036,8 +1086,6 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         resultadoFG.setText("-%");
         resultadoTs.setText("-%");
         resultadoValoration.setText("-%");
-        //inputNombre.setText("texto");
-        //inputNombre.setForeground(new java.awt.Color(204,204,204));
         JSpinner[] spinners = {spinnerAsis,spinnerReb,spinnerTf,spinnerBr,spinnerFr,spinnerT1a,spinnerT2a,spinnerT3a,spinnerBp,spinnerTc,spinnerFp,spinnerTli,spinnerT2i,spinnerT3i,spinnerTca,spinnerTci,spinnerP};
         for (JSpinner spinner : spinners){
             spinner.setValue((int) 0);
@@ -1048,18 +1096,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonResetearActionPerformed
 
     private void botonExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcelActionPerformed
-        ArrayList<String> datosPantalla = getData();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
-        HashMap<String,String> mapDatos= new HashMap<>();
-        
-        for (int i = 0; i < datosPantalla.size();i++){
-            mapDatos.put(claves.get(i),datosPantalla.get(i));
-        }
-        
-        String[] teams = {"Angeles Lakers", "Golden State Warriors"};
-        String pathExcel = wte.selectionPathExcel(teams,mapDatos);
-        
-        wte.abrirExcel(pathExcel);
+        actionButtonExcel();
     }//GEN-LAST:event_botonExcelActionPerformed
 
     private void botonExcelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_botonExcelFocusGained
@@ -1071,18 +1108,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     }//GEN-LAST:event_botonExcel1FocusGained
 
     private void botonExcel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExcel1ActionPerformed
-        ArrayList<String> datosPantalla = getData();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
-        HashMap<String,String> mapDatos= new HashMap<>();
-        
-        for (int i = 0; i < datosPantalla.size();i++){
-            mapDatos.put(claves.get(i),datosPantalla.get(i));
-        }
-        
-        String[] teams = {"Angeles Lakers", "Golden State Warriors"};
-        String pathExcel = wte.selectionPathExcel(teams,mapDatos);
-        
-        wte.abrirExcel(pathExcel);
+        actionButtonExcel();
     }//GEN-LAST:event_botonExcel1ActionPerformed
     
     /**
@@ -1185,17 +1211,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     }//GEN-LAST:event_comboEquiposActionPerformed
 
     private void graphicsLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsLineButtonActionPerformed
-        ArrayList<String> datosPantalla = getData();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
-        HashMap<String,String> mapDatos= new HashMap<>();
         
-        for (int i = 0; i < datosPantalla.size();i++){
-            mapDatos.put(claves.get(i),datosPantalla.get(i));
-        }
+        HashMap<String,String> mapData= getHashMapData();
         
-        System.out.println(mapDatos.get("Equipo"));
+        System.out.println(mapData.get("Equipo"));
         
-        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Valoration");
+        List<Double> nums = gde.getData(mapData.get("Equipo"),mapData.get("Jugador"),"Valoration");
         
         // Creamos un grafico de barras y lineas combinado
         DefaultCategoryDataset dataset = clc.createDataset(nums);
@@ -1203,104 +1224,45 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         // Creamos el gráfico de líneas con los datos
         JFreeChart chart = clc.createLineChart(dataset, "Gráfico de Líneas", Color.BLUE, Color.LIGHT_GRAY);
 
-        // Mapas de las carpetas de los jugadores------------------------------------------------------------------------------
-        HashMap<String, String> playerPathsLakers = new HashMap<>();
-        // Rutas para los Angeles Lakers
-        playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
-        playerPathsLakers.put("Anthony Davis", "src/main/resources/images/graficas/Angeles Lakers/Anthony Davis/");
-        playerPathsLakers.put("Austin Reaves", "src/main/resources/images/graficas/Angeles Lakers/Austin Reaves/");
-        playerPathsLakers.put("D Angelo Russell", "src/main/resources/images/graficas/Angeles Lakers/D Angelo Russell/");
-        playerPathsLakers.put("Rui Hachimura", "src/main/resources/images/graficas/Angeles Lakers/Rui Hachimura/");
-
-        HashMap<String, String> playerPathsWarriors = new HashMap<>();
-        // Rutas para los Golden State Warriors
-        playerPathsWarriors.put("Stephen Curry", "src/main/resources/images/graficas/Golden State Warriors/Stephen Curry/");
-        playerPathsWarriors.put("Klay Thompson", "src/main/resources/images/graficas/Golden State Warriors/Klay Thompson/");
-        playerPathsWarriors.put("Draymond Green", "src/main/resources/images/graficas/Golden State Warriors/Draymond Green/");
-        playerPathsWarriors.put("Andrew Wiggins", "src/main/resources/images/graficas/Golden State Warriors/Andrew Wiggins/");
-        playerPathsWarriors.put("Chris Paul", "src/main/resources/images/graficas/Golden State Warriors/Chris Paul/");
-
-        HashMap<String, HashMap<String, String>> teams = new HashMap<>();
-        teams.put("Angeles Lakers", playerPathsLakers);
-        teams.put("Golden State Warriors", playerPathsWarriors);
-        //----------------------------------------------------------------------------------------------------------------------
-        
-        
-        
-
         // Ruta relativa de la imagen donde se guardará
-        String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
-        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "Valoration" + ".png";
-        System.out.println("Ruta final de guardado: " + savePath);
+        String relativePath = teamsDirectory.get(mapData.get("Equipo")).get(mapData.get("Jugador"));
         
-        // Guardamos el gráfico como una imagen PNG
-        clc.saveChartAsPNG(chart, savePath); 
-        
-        // Crear un JFrame para mostrar el gráfico en una ventana
-        JFrame frame = new JFrame(mapDatos.get("Equipo"));
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setSize(800, 600); // Tamaño de la ventana
-
-        // Crear un ChartPanel y añadirlo al JFrame
-        ChartPanel chartPanel = new ChartPanel(chart);
-        frame.add(chartPanel);
-
-        // Hacer visible el JFrame
-        frame.setLocationRelativeTo(null);  // Centrar la ventana
-        frame.setVisible(true);
+        saveAndShowInJFrame(chart,relativePath,"Valoration",mapData.get("Equipo"));
 
     }//GEN-LAST:event_graphicsLineButtonActionPerformed
 
     private void graphicsBarLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsBarLineButtonActionPerformed
                 
-        ArrayList<String> datosPantalla = getData();
-        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
-        HashMap<String,String> mapDatos= new HashMap<>();
+        HashMap<String,String> mapData= getHashMapData();
         
-        for (int i = 0; i < datosPantalla.size();i++){
-            mapDatos.put(claves.get(i),datosPantalla.get(i));
-        }
-        System.out.println(mapDatos.get("Equipo"));
-        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Puntos");
+        System.out.println(mapData.get("Equipo"));
+        List<Double> nums = gde.getData(mapData.get("Equipo"),mapData.get("Jugador"),"Puntos");
         
         // Creamos un grafico de barras y lineas combinado
-        JFreeChart chart = cce.createCombinedChart("Puntos:" + mapDatos.get("Jugador"), "Puntos", nums);
-
-        // Mapas de las carpetas de los jugadores------------------------------------------------------------------------------
-        HashMap<String, String> playerPathsLakers = new HashMap<>();
-        // Rutas para los Angeles Lakers
-        playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
-        playerPathsLakers.put("Anthony Davis", "src/main/resources/images/graficas/Angeles Lakers/Anthony Davis/");
-        playerPathsLakers.put("Austin Reaves", "src/main/resources/images/graficas/Angeles Lakers/Austin Reaves/");
-        playerPathsLakers.put("D Angelo Russell", "src/main/resources/images/graficas/Angeles Lakers/D Angelo Russell/");
-        playerPathsLakers.put("Rui Hachimura", "src/main/resources/images/graficas/Angeles Lakers/Rui Hachimura/");
-
-        HashMap<String, String> playerPathsWarriors = new HashMap<>();
-        // Rutas para los Golden State Warriors
-        playerPathsWarriors.put("Stephen Curry", "src/main/resources/images/graficas/Golden State Warriors/Stephen Curry/");
-        playerPathsWarriors.put("Klay Thompson", "src/main/resources/images/graficas/Golden State Warriors/Klay Thompson/");
-        playerPathsWarriors.put("Draymond Green", "src/main/resources/images/graficas/Golden State Warriors/Draymond Green/");
-        playerPathsWarriors.put("Andrew Wiggins", "src/main/resources/images/graficas/Golden State Warriors/Andrew Wiggins/");
-        playerPathsWarriors.put("Chris Paul", "src/main/resources/images/graficas/Golden State Warriors/Chris Paul/");
-
-        HashMap<String, HashMap<String, String>> teams = new HashMap<>();
-        teams.put("Angeles Lakers", playerPathsLakers);
-        teams.put("Golden State Warriors", playerPathsWarriors);
-        //----------------------------------------------------------------------------------------------------------------------
-        
-        
-        
+        JFreeChart chart = cce.createCombinedChart("Puntos:" + mapData.get("Jugador"), "Puntos", nums);
 
         // Ruta relativa de la imagen donde se guardará
-        String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
-        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "Puntos" + ".png";
-        System.out.println("Ruta final de guardado: " + savePath);
+        String relativePath = teamsDirectory.get(mapData.get("Equipo")).get(mapData.get("Jugador"));
         
-        // Guardamos el gráfico como una imagen PNG
+        saveAndShowInJFrame(chart,relativePath,"Puntos",mapData.get("Equipo"));
+        
+    }//GEN-LAST:event_graphicsBarLineButtonActionPerformed
+    
+    /**
+     * Este método guarda en la ruta y muestra en un jframe el chart
+     * @param chart es un JFreeChart donde se guarda el grafico que he creado
+     * @param savePath ruta de donde quiero guardar el grafico
+     * @param nameTeam nombre del equipo
+     */
+    private void saveAndShowInJFrame(JFreeChart chart, String relativePath, String stadisticType, String nameTeam){
+        
+        String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
+        String savePath = basePath + "/" + relativePath + stadisticType + ".png";
+        
         cce.saveChartAsPNG(chart, savePath); 
         
         // Crear un JFrame para mostrar el gráfico en una ventana
-        JFrame frame = new JFrame(mapDatos.get("Equipo"));
+        JFrame frame = new JFrame(nameTeam);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600); // Tamaño de la ventana
 
@@ -1311,8 +1273,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         // Hacer visible el JFrame
         frame.setLocationRelativeTo(null);  // Centrar la ventana
         frame.setVisible(true);
-
-    }//GEN-LAST:event_graphicsBarLineButtonActionPerformed
+    }
     
     /**
      * @param args the command line arguments
