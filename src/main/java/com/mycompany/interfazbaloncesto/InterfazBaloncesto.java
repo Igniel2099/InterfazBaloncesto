@@ -1180,40 +1180,35 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Puntos");
         
         DefaultCategoryDataset dataset = cbc.createDataset(nums);
-
+        
         // Creamos el gráfico de barras con los datos
         JFreeChart chart = cbc.createBarChart(dataset, mapDatos.get("Jugador"), new Color(0xB21B1B), Color.GRAY);
         
-        // mapas de las carpetas de los jugadores
-        
+        // Mapas de las carpetas de los jugadores
         HashMap<String, String> playerPathsLakers = new HashMap<>();
-
         // Rutas para los Angeles Lakers
-        
-        // DEBERIA HACERLAS RUTAS RELATIVAS desde \\src podrian ser.
-        playerPathsLakers.put("LeBron James", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\LeBron James\\");
-        playerPathsLakers.put("Anthony Davis", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Anthony Davis\\");
-        playerPathsLakers.put("Austin Reaves", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Austin Reaves\\");
-        playerPathsLakers.put("D Angelo Russell", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\D Angelo Russell\\");
-        playerPathsLakers.put("Rui Hachimura", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Rui Hachimura\\");
-        
+        playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
+        playerPathsLakers.put("Anthony Davis", "src/main/resources/images/graficas/Angeles Lakers/Anthony Davis/");
+        playerPathsLakers.put("Austin Reaves", "src/main/resources/images/graficas/Angeles Lakers/Austin Reaves/");
+        playerPathsLakers.put("D Angelo Russell", "src/main/resources/images/graficas/Angeles Lakers/D Angelo Russell/");
+        playerPathsLakers.put("Rui Hachimura", "src/main/resources/images/graficas/Angeles Lakers/Rui Hachimura/");
+
         HashMap<String, String> playerPathsWarriors = new HashMap<>();
         // Rutas para los Golden State Warriors
-        playerPathsWarriors.put("Stephen Curry", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Stephen Curry\\");
-        playerPathsWarriors.put("Klay Thompson", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Klay Thompson\\");
-        playerPathsWarriors.put("Draymond Green", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Draymond Green\\");
-        playerPathsWarriors.put("Andrew Wiggins", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Andrew Wiggins\\");
-        playerPathsWarriors.put("Chris Paul", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Chris Paul\\");
-        
-        HashMap<String,HashMap<String,String>> teams = new HashMap<>();
+        playerPathsWarriors.put("Stephen Curry", "src/main/resources/images/graficas/Golden State Warriors/Stephen Curry/");
+        playerPathsWarriors.put("Klay Thompson", "src/main/resources/images/graficas/Golden State Warriors/Klay Thompson/");
+        playerPathsWarriors.put("Draymond Green", "src/main/resources/images/graficas/Golden State Warriors/Draymond Green/");
+        playerPathsWarriors.put("Andrew Wiggins", "src/main/resources/images/graficas/Golden State Warriors/Andrew Wiggins/");
+        playerPathsWarriors.put("Chris Paul", "src/main/resources/images/graficas/Golden State Warriors/Chris Paul/");
+
+        HashMap<String, HashMap<String, String>> teams = new HashMap<>();
         teams.put("Angeles Lakers", playerPathsLakers);
         teams.put("Golden State Warriors", playerPathsWarriors);
-        
-        String savePath = teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "\\" + mapDatos.get("Jugador") + ".png";
-        System.out.println(
-                savePath
-        );
-        
+
+        // Ruta relativa de la imagen donde se guardará
+        String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
+        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + mapDatos.get("Jugador") + ".png";
+        System.out.println("Ruta final de guardado: " + savePath);
         
         // Guardamos el gráfico como una imagen PNG
         cbc.saveChartAsPNG(chart, savePath);
