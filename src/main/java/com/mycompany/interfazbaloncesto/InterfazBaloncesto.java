@@ -13,8 +13,11 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import java.awt.Color;
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JSpinner;
+import org.jfree.data.category.DefaultCategoryDataset;
 /**
  *
  * @author walth
@@ -22,7 +25,9 @@ import javax.swing.JSpinner;
 public class InterfazBaloncesto extends javax.swing.JFrame {
     
     WritingToExcel wte;
+    GetDataExcel gde;
     CreateGraphics cg;
+    CreateBarChart cbc;
     HashMap<JSpinner,Integer> mapOldValuesSpinners;
     
     
@@ -33,7 +38,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     public InterfazBaloncesto() {
         
         this.wte = new WritingToExcel();
+        this.gde = new GetDataExcel();
         this.cg = new CreateGraphics();
+        this.cbc = new CreateBarChart();
         this.mapOldValuesSpinners = new HashMap<>();
         
         initComponents();
@@ -141,6 +148,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         cabeceraResultados = new javax.swing.JLabel();
         botonExcel1 = new javax.swing.JButton();
         botonExportar = new javax.swing.JButton();
+        graphicsButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de Estadisticas de la NBA");
@@ -797,6 +805,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 600, -1, -1));
 
+        graphicsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficos.png"))); // NOI18N
+        graphicsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                graphicsButtonActionPerformed(evt);
+            }
+        });
+        PantallaResultados.add(graphicsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 580, -1, -1));
+
         javax.swing.GroupLayout tabValoracionLayout = new javax.swing.GroupLayout(tabValoracion);
         tabValoracion.setLayout(tabValoracionLayout);
         tabValoracionLayout.setHorizontalGroup(
@@ -1150,6 +1166,72 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 
         }
     }//GEN-LAST:event_comboEquiposActionPerformed
+
+    private void graphicsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsButtonActionPerformed
+        
+        ArrayList<String> datosPantalla = getData();
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
+        HashMap<String,String> mapDatos= new HashMap<>();
+        
+        for (int i = 0; i < datosPantalla.size();i++){
+            mapDatos.put(claves.get(i),datosPantalla.get(i));
+        }
+        System.out.println(mapDatos.get("Equipo"));
+        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Puntos");
+        
+        DefaultCategoryDataset dataset = cbc.createDataset(nums);
+
+        // Creamos el gráfico de barras con los datos
+        JFreeChart chart = cbc.createBarChart(dataset, mapDatos.get("Jugador"), new Color(0xB21B1B), Color.GRAY);
+        
+        // mapas de las carpetas de los jugadores
+        
+        HashMap<String, String> playerPathsLakers = new HashMap<>();
+
+        // Rutas para los Angeles Lakers
+        
+        // DEBERIA HACERLAS RUTAS RELATIVAS desde \\src podrian ser.
+        playerPathsLakers.put("LeBron James", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\LeBron James\\");
+        playerPathsLakers.put("Anthony Davis", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Anthony Davis\\");
+        playerPathsLakers.put("Austin Reaves", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Austin Reaves\\");
+        playerPathsLakers.put("D Angelo Russell", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\D Angelo Russell\\");
+        playerPathsLakers.put("Rui Hachimura", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Angeles Lakers\\Rui Hachimura\\");
+        
+        HashMap<String, String> playerPathsWarriors = new HashMap<>();
+        // Rutas para los Golden State Warriors
+        playerPathsWarriors.put("Stephen Curry", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Stephen Curry\\");
+        playerPathsWarriors.put("Klay Thompson", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Klay Thompson\\");
+        playerPathsWarriors.put("Draymond Green", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Draymond Green\\");
+        playerPathsWarriors.put("Andrew Wiggins", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Andrew Wiggins\\");
+        playerPathsWarriors.put("Chris Paul", "C:\\Users\\walth\\Documents\\NetBeansProjects\\InterfazBaloncesto\\src\\main\\resources\\images\\graficas\\Golden State Warriors\\Chris Paul\\");
+        
+        HashMap<String,HashMap<String,String>> teams = new HashMap<>();
+        teams.put("Angeles Lakers", playerPathsLakers);
+        teams.put("Golden State Warriors", playerPathsWarriors);
+        
+        String savePath = teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "\\" + mapDatos.get("Jugador") + ".png";
+        System.out.println(
+                savePath
+        );
+        
+        
+        // Guardamos el gráfico como una imagen PNG
+        cbc.saveChartAsPNG(chart, savePath);
+        
+        // Crear un JFrame para mostrar el gráfico en una ventana
+        JFrame frame = new JFrame("Gráfico de Barras");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(800, 600); // Tamaño de la ventana
+
+        // Crear un ChartPanel y añadirlo al JFrame
+        ChartPanel chartPanel = new ChartPanel(chart);
+        frame.add(chartPanel);
+
+        // Hacer visible el JFrame
+        frame.setLocationRelativeTo(null);  // Centrar la ventana
+        frame.setVisible(true);
+
+    }//GEN-LAST:event_graphicsButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1213,6 +1295,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel fondoFg;
     private javax.swing.JLabel fondoTs;
     private javax.swing.JLabel fondoValoration;
+    private javax.swing.JButton graphicsButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JTabbedPane jTabbedPane1;

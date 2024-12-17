@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.RingPlot;
@@ -42,7 +41,7 @@ public class CreateGraphics {
     public void saveChartAsPNG(JFreeChart chart, String filePath) {
         try {
             File file = new File(filePath);
-            ChartUtils.saveChartAsPNG(file, chart, 80, 60); // Especifica el tamaño del gráfico
+            ChartUtils.saveChartAsPNG(file, chart, 800, 600); // Especifica el tamaño del gráfico
             System.out.println("Gráfico guardado como PNG en: " + filePath);
         } catch (IOException e) {
             System.out.println("Error al guardar el gráfico.");
@@ -50,6 +49,8 @@ public class CreateGraphics {
         }
     }
    
+    
+    
     
 
     /**
