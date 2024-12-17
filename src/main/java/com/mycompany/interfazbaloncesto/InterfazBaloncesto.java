@@ -26,8 +26,11 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     
     WritingToExcel wte;
     GetDataExcel gde;
+    
     CreateGraphics cg;
-    CreateBarChart cbc;
+    CombinedChartExample cce;
+    CreateLineChart clc;
+    
     HashMap<JSpinner,Integer> mapOldValuesSpinners;
     
     
@@ -40,7 +43,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         this.wte = new WritingToExcel();
         this.gde = new GetDataExcel();
         this.cg = new CreateGraphics();
-        this.cbc = new CreateBarChart();
+        
+        this.cce = new CombinedChartExample();
+        this.clc = new CreateLineChart();
+        
+        
+        
         this.mapOldValuesSpinners = new HashMap<>();
         
         initComponents();
@@ -148,7 +156,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         cabeceraResultados = new javax.swing.JLabel();
         botonExcel1 = new javax.swing.JButton();
         botonExportar = new javax.swing.JButton();
-        graphicsButton = new javax.swing.JButton();
+        graphicsLineButton = new javax.swing.JButton();
+        graphicsBarLineButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de Estadisticas de la NBA");
@@ -805,13 +814,21 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         });
         PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 600, -1, -1));
 
-        graphicsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficos.png"))); // NOI18N
-        graphicsButton.addActionListener(new java.awt.event.ActionListener() {
+        graphicsLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficoLineas.png"))); // NOI18N
+        graphicsLineButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                graphicsButtonActionPerformed(evt);
+                graphicsLineButtonActionPerformed(evt);
             }
         });
-        PantallaResultados.add(graphicsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 580, -1, -1));
+        PantallaResultados.add(graphicsLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 590, -1, -1));
+
+        graphicsBarLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficos.png"))); // NOI18N
+        graphicsBarLineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                graphicsBarLineButtonActionPerformed(evt);
+            }
+        });
+        PantallaResultados.add(graphicsBarLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, -1, -1));
 
         javax.swing.GroupLayout tabValoracionLayout = new javax.swing.GroupLayout(tabValoracion);
         tabValoracion.setLayout(tabValoracionLayout);
@@ -827,7 +844,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
             .addGroup(tabValoracionLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(PantallaResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(22, 22, 22))
+                .addGap(41, 41, 41))
         );
 
         jTabbedPane1.addTab("Resultados", tabValoracion);
@@ -1167,8 +1184,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboEquiposActionPerformed
 
-    private void graphicsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsButtonActionPerformed
-        
+    private void graphicsLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsLineButtonActionPerformed
         ArrayList<String> datosPantalla = getData();
         ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
         HashMap<String,String> mapDatos= new HashMap<>();
@@ -1176,15 +1192,18 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         for (int i = 0; i < datosPantalla.size();i++){
             mapDatos.put(claves.get(i),datosPantalla.get(i));
         }
+        
         System.out.println(mapDatos.get("Equipo"));
-        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Puntos");
         
-        DefaultCategoryDataset dataset = cbc.createDataset(nums);
+        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Valoration");
         
-        // Creamos el gráfico de barras con los datos
-        JFreeChart chart = cbc.createBarChart(dataset, mapDatos.get("Jugador"), new Color(0xB21B1B), Color.GRAY);
-        
-        // Mapas de las carpetas de los jugadores
+        // Creamos un grafico de barras y lineas combinado
+        DefaultCategoryDataset dataset = clc.createDataset(nums);
+
+        // Creamos el gráfico de líneas con los datos
+        JFreeChart chart = clc.createLineChart(dataset, "Gráfico de Líneas", Color.BLUE, Color.LIGHT_GRAY);
+
+        // Mapas de las carpetas de los jugadores------------------------------------------------------------------------------
         HashMap<String, String> playerPathsLakers = new HashMap<>();
         // Rutas para los Angeles Lakers
         playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
@@ -1204,17 +1223,21 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         HashMap<String, HashMap<String, String>> teams = new HashMap<>();
         teams.put("Angeles Lakers", playerPathsLakers);
         teams.put("Golden State Warriors", playerPathsWarriors);
+        //----------------------------------------------------------------------------------------------------------------------
+        
+        
+        
 
         // Ruta relativa de la imagen donde se guardará
         String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
-        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + mapDatos.get("Jugador") + ".png";
+        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "Valoration" + ".png";
         System.out.println("Ruta final de guardado: " + savePath);
         
         // Guardamos el gráfico como una imagen PNG
-        cbc.saveChartAsPNG(chart, savePath);
+        clc.saveChartAsPNG(chart, savePath); 
         
         // Crear un JFrame para mostrar el gráfico en una ventana
-        JFrame frame = new JFrame("Gráfico de Barras");
+        JFrame frame = new JFrame(mapDatos.get("Equipo"));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(800, 600); // Tamaño de la ventana
 
@@ -1226,7 +1249,70 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         frame.setLocationRelativeTo(null);  // Centrar la ventana
         frame.setVisible(true);
 
-    }//GEN-LAST:event_graphicsButtonActionPerformed
+    }//GEN-LAST:event_graphicsLineButtonActionPerformed
+
+    private void graphicsBarLineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphicsBarLineButtonActionPerformed
+                
+        ArrayList<String> datosPantalla = getData();
+        ArrayList<String> claves = new ArrayList<>(Arrays.asList(wte.getCabecera()));
+        HashMap<String,String> mapDatos= new HashMap<>();
+        
+        for (int i = 0; i < datosPantalla.size();i++){
+            mapDatos.put(claves.get(i),datosPantalla.get(i));
+        }
+        System.out.println(mapDatos.get("Equipo"));
+        List<Double> nums = gde.getData(mapDatos.get("Equipo"),mapDatos.get("Jugador"),"Puntos");
+        
+        // Creamos un grafico de barras y lineas combinado
+        JFreeChart chart = cce.createCombinedChart("Puntos:" + mapDatos.get("Jugador"), "Puntos", nums);
+
+        // Mapas de las carpetas de los jugadores------------------------------------------------------------------------------
+        HashMap<String, String> playerPathsLakers = new HashMap<>();
+        // Rutas para los Angeles Lakers
+        playerPathsLakers.put("LeBron James", "src/main/resources/images/graficas/Angeles Lakers/LeBron James/");
+        playerPathsLakers.put("Anthony Davis", "src/main/resources/images/graficas/Angeles Lakers/Anthony Davis/");
+        playerPathsLakers.put("Austin Reaves", "src/main/resources/images/graficas/Angeles Lakers/Austin Reaves/");
+        playerPathsLakers.put("D Angelo Russell", "src/main/resources/images/graficas/Angeles Lakers/D Angelo Russell/");
+        playerPathsLakers.put("Rui Hachimura", "src/main/resources/images/graficas/Angeles Lakers/Rui Hachimura/");
+
+        HashMap<String, String> playerPathsWarriors = new HashMap<>();
+        // Rutas para los Golden State Warriors
+        playerPathsWarriors.put("Stephen Curry", "src/main/resources/images/graficas/Golden State Warriors/Stephen Curry/");
+        playerPathsWarriors.put("Klay Thompson", "src/main/resources/images/graficas/Golden State Warriors/Klay Thompson/");
+        playerPathsWarriors.put("Draymond Green", "src/main/resources/images/graficas/Golden State Warriors/Draymond Green/");
+        playerPathsWarriors.put("Andrew Wiggins", "src/main/resources/images/graficas/Golden State Warriors/Andrew Wiggins/");
+        playerPathsWarriors.put("Chris Paul", "src/main/resources/images/graficas/Golden State Warriors/Chris Paul/");
+
+        HashMap<String, HashMap<String, String>> teams = new HashMap<>();
+        teams.put("Angeles Lakers", playerPathsLakers);
+        teams.put("Golden State Warriors", playerPathsWarriors);
+        //----------------------------------------------------------------------------------------------------------------------
+        
+        
+        
+
+        // Ruta relativa de la imagen donde se guardará
+        String basePath = System.getProperty("user.dir"); // Directorio base del proyecto
+        String savePath = basePath + "/" + teams.get(mapDatos.get("Equipo")).get(mapDatos.get("Jugador")) + "Puntos" + ".png";
+        System.out.println("Ruta final de guardado: " + savePath);
+        
+        // Guardamos el gráfico como una imagen PNG
+        cce.saveChartAsPNG(chart, savePath); 
+        
+        // Crear un JFrame para mostrar el gráfico en una ventana
+        JFrame frame = new JFrame(mapDatos.get("Equipo"));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(800, 600); // Tamaño de la ventana
+
+        // Crear un ChartPanel y añadirlo al JFrame
+        ChartPanel chartPanel = new ChartPanel(chart);
+        frame.add(chartPanel);
+
+        // Hacer visible el JFrame
+        frame.setLocationRelativeTo(null);  // Centrar la ventana
+        frame.setVisible(true);
+
+    }//GEN-LAST:event_graphicsBarLineButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -1290,7 +1376,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel fondoFg;
     private javax.swing.JLabel fondoTs;
     private javax.swing.JLabel fondoValoration;
-    private javax.swing.JButton graphicsButton;
+    private javax.swing.JButton graphicsBarLineButton;
+    private javax.swing.JButton graphicsLineButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JTabbedPane jTabbedPane1;
