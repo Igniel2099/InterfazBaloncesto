@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import org.jfree.data.category.DefaultCategoryDataset;
 /**
@@ -145,22 +146,22 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         PantallaResultados = new javax.swing.JPanel();
         ContenedorCajasResultados = new javax.swing.JPanel();
         panelEfg = new javax.swing.JPanel();
-        txtEfg = new javax.swing.JLabel();
+        txtEfg = new com.mycompany.interfazbaloncesto.TxtComponent();
         resultadoEFG = new javax.swing.JLabel();
         donaEfg = new javax.swing.JPanel();
         fondoEfg = new javax.swing.JLabel();
         panelFg = new javax.swing.JPanel();
-        txtFg = new javax.swing.JLabel();
+        txtFg = new com.mycompany.interfazbaloncesto.TxtComponent();
         resultadoFG = new javax.swing.JLabel();
         donaFg = new javax.swing.JPanel();
         fondoFg = new javax.swing.JLabel();
         panelTs = new javax.swing.JPanel();
-        txtTs = new javax.swing.JLabel();
+        txtTs = new com.mycompany.interfazbaloncesto.TxtComponent();
         resultadoTs = new javax.swing.JLabel();
         donaTs = new javax.swing.JPanel();
         fondoTs = new javax.swing.JLabel();
         panelValoration = new javax.swing.JPanel();
-        txtValoration = new javax.swing.JLabel();
+        txtValoration = new com.mycompany.interfazbaloncesto.TxtComponent();
         resultadoValoration = new javax.swing.JLabel();
         donaValoration = new javax.swing.JPanel();
         fondoValoration = new javax.swing.JLabel();
@@ -170,6 +171,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         graphicsLineButton = new javax.swing.JButton();
         graphicsBarLineButton = new javax.swing.JButton();
         buttonExportPdf = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        condicionesServicios = new javax.swing.JMenuItem();
+        cambiarPequeño = new javax.swing.JMenuItem();
+        cambiarMediano = new javax.swing.JMenuItem();
+        cambiarGrande = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de Estadisticas de la NBA");
@@ -522,6 +529,25 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         panelFormulario.add(txtTci, gridBagConstraints);
 
         spinnerTci.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerTci.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                spinnerTciAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        spinnerTci.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerTciStateChanged(evt);
+            }
+        });
+        spinnerTci.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                spinnerTciMousePressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -538,6 +564,11 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         panelFormulario.add(txtP, gridBagConstraints);
 
         spinnerP.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerP.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spinnerPStateChanged(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 9;
@@ -640,13 +671,13 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                             .addComponent(PantallaDatos1, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(tabEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(tabEstadisticasLayout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(botonExcel))
+                            .addGroup(tabEstadisticasLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(tabEstadisticasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(botonCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(botonResetear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(tabEstadisticasLayout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(botonExcel)))))
+                                    .addComponent(botonResetear, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -662,10 +693,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelEfg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtEfg.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtEfg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtEfg.setText("%eFG:");
-        panelEfg.add(txtEfg, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 160, -1));
+        txtEfg.cambiarTamañoFuente(3);
+        panelEfg.add(txtEfg, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         resultadoEFG.setBackground(new java.awt.Color(255, 255, 255));
         resultadoEFG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -697,10 +727,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelFg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtFg.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtFg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtFg.setText("%FG:");
-        panelFg.add(txtFg, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 150, -1));
+        txtFg.cambiarTamañoFuente(3);
+        panelFg.add(txtFg, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         resultadoFG.setBackground(new java.awt.Color(255, 255, 255));
         resultadoFG.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -732,10 +761,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelTs.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtTs.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtTs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtTs.setText("%TS");
-        panelTs.add(txtTs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 160, 30));
+        txtTs.setText("%TS:");
+        txtTs.cambiarTamañoFuente(3);
+        panelTs.add(txtTs, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         resultadoTs.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         resultadoTs.setForeground(new java.awt.Color(255, 255, 255));
@@ -768,10 +796,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelValoration.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtValoration.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtValoration.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtValoration.setText("Valoracion:");
-        panelValoration.add(txtValoration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 160, -1));
+        txtValoration.setText("Valoration:");
+        txtValoration.cambiarTamañoFuente(3);
+        panelValoration.add(txtValoration, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         resultadoValoration.setBackground(new java.awt.Color(255, 255, 255));
         resultadoValoration.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -821,7 +848,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 botonExcel1ActionPerformed(evt);
             }
         });
-        PantallaResultados.add(botonExcel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 610, -1, -1));
+        PantallaResultados.add(botonExcel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 600, -1, -1));
 
         botonExportar.setText("Exportar");
         botonExportar.setToolTipText("");
@@ -830,7 +857,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 botonExportarActionPerformed(evt);
             }
         });
-        PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 600, -1, -1));
+        PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 600, -1, -1));
 
         graphicsLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficoLineas.png"))); // NOI18N
         graphicsLineButton.addActionListener(new java.awt.event.ActionListener() {
@@ -838,7 +865,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 graphicsLineButtonActionPerformed(evt);
             }
         });
-        PantallaResultados.add(graphicsLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 610, -1, -1));
+        PantallaResultados.add(graphicsLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 600, -1, -1));
 
         graphicsBarLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficos.png"))); // NOI18N
         graphicsBarLineButton.addActionListener(new java.awt.event.ActionListener() {
@@ -846,7 +873,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 graphicsBarLineButtonActionPerformed(evt);
             }
         });
-        PantallaResultados.add(graphicsBarLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 610, -1, -1));
+        PantallaResultados.add(graphicsBarLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 600, -1, -1));
 
         buttonExportPdf.setText("Export PDF");
         buttonExportPdf.addActionListener(new java.awt.event.ActionListener() {
@@ -892,6 +919,49 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         jTabbedPane1.getAccessibleContext().setAccessibleDescription("");
 
+        jMenu1.setText("Menu");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
+
+        condicionesServicios.setText("Condiciones y Servicios");
+        condicionesServicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                condicionesServiciosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(condicionesServicios);
+
+        cambiarPequeño.setText("Cambiar Tamaño a Pequeño");
+        cambiarPequeño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarPequeñoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(cambiarPequeño);
+
+        cambiarMediano.setText("Cambiar Tamaño a Mediano");
+        cambiarMediano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarMedianoActionPerformed(evt);
+            }
+        });
+        jMenu1.add(cambiarMediano);
+
+        cambiarGrande.setText("Cambiar Tamaño a Grande");
+        cambiarGrande.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cambiarGrandeActionPerformed(evt);
+            }
+        });
+        jMenu1.add(cambiarGrande);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -902,9 +972,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+            .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1195,7 +1263,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     }//GEN-LAST:event_spinnerT3aStateChanged
 
     private void spinnerTcaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerTcaStateChanged
-        System.out.println("Evento en spinnerTca");
+        
+        
     }//GEN-LAST:event_spinnerTcaStateChanged
 
     private void spinnerT2iStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerT2iStateChanged
@@ -1319,6 +1388,62 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_buttonExportPdfActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+       
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void condicionesServiciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_condicionesServiciosActionPerformed
+        SegundoJFrame secondFrame = new SegundoJFrame();
+       secondFrame.setVisible(true);
+    }//GEN-LAST:event_condicionesServiciosActionPerformed
+
+    private void cambiarMedianoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarMedianoActionPerformed
+        txtValoration.cambiarTamañoFuente(2);
+        txtEfg.cambiarTamañoFuente(2);
+        txtFg.cambiarTamañoFuente(2);
+        txtTs.cambiarTamañoFuente(2);
+    }//GEN-LAST:event_cambiarMedianoActionPerformed
+
+    private void cambiarPequeñoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarPequeñoActionPerformed
+        txtValoration.cambiarTamañoFuente(1);
+        txtEfg.cambiarTamañoFuente(1);
+        txtFg.cambiarTamañoFuente(1);
+        txtTs.cambiarTamañoFuente(1);
+    }//GEN-LAST:event_cambiarPequeñoActionPerformed
+
+    private void cambiarGrandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cambiarGrandeActionPerformed
+        txtValoration.cambiarTamañoFuente(3);
+        txtEfg.cambiarTamañoFuente(3);
+        txtFg.cambiarTamañoFuente(3);
+        txtTs.cambiarTamañoFuente(3);
+    }//GEN-LAST:event_cambiarGrandeActionPerformed
+
+    private void spinnerTciAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_spinnerTciAncestorAdded
+        
+    }//GEN-LAST:event_spinnerTciAncestorAdded
+
+    private void spinnerTciStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerTciStateChanged
+        if ( (int) spinnerTci.getValue() < ((int) spinnerT2i.getValue() + (int) spinnerT3i.getValue())){
+             JOptionPane.showMessageDialog(
+                null,  
+                "El valor del tTCI no puede ser menor que la suma de T2I y T3I.", 
+                "Advertencia",  
+                JOptionPane.WARNING_MESSAGE  
+            );
+        }
+        
+    }//GEN-LAST:event_spinnerTciStateChanged
+
+    private void spinnerPStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerPStateChanged
+        
+        
+    }//GEN-LAST:event_spinnerPStateChanged
+
+    private void spinnerTciMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spinnerTciMousePressed
+        
+        
+    }//GEN-LAST:event_spinnerTciMousePressed
     
     /**
      * Este método guarda en la ruta y muestra en un jframe el chart
@@ -1398,8 +1523,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JButton buttonExportPdf;
     private javax.swing.JLabel cabeceraDatos;
     private javax.swing.JLabel cabeceraResultados;
+    private javax.swing.JMenuItem cambiarGrande;
+    private javax.swing.JMenuItem cambiarMediano;
+    private javax.swing.JMenuItem cambiarPequeño;
     private javax.swing.JComboBox<String> comboEquipos;
     private javax.swing.JComboBox<String> comboJugadores;
+    private javax.swing.JMenuItem condicionesServicios;
     private javax.swing.JPanel donaEfg;
     private javax.swing.JPanel donaFg;
     private javax.swing.JPanel donaTs;
@@ -1414,6 +1543,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JButton graphicsLineButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel panelCabecera;
     private javax.swing.JPanel panelEfg;
@@ -1448,9 +1579,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel txtAsis;
     private javax.swing.JLabel txtBp;
     private javax.swing.JLabel txtBr;
-    private javax.swing.JLabel txtEfg;
+    private com.mycompany.interfazbaloncesto.TxtComponent txtEfg;
     private javax.swing.JLabel txtEquipo;
-    private javax.swing.JLabel txtFg;
+    private com.mycompany.interfazbaloncesto.TxtComponent txtFg;
     private javax.swing.JLabel txtFr;
     private javax.swing.JLabel txtJugador;
     private javax.swing.JLabel txtP;
@@ -1465,7 +1596,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JLabel txtTci;
     private javax.swing.JLabel txtTf;
     private javax.swing.JLabel txtTli;
-    private javax.swing.JLabel txtTs;
-    private javax.swing.JLabel txtValoration;
+    private com.mycompany.interfazbaloncesto.TxtComponent txtTs;
+    private com.mycompany.interfazbaloncesto.TxtComponent txtValoration;
     // End of variables declaration//GEN-END:variables
 }
