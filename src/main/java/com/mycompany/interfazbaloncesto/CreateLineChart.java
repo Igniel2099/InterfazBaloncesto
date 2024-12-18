@@ -60,7 +60,7 @@ public class CreateLineChart {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (int i = 0; i < pointsPerGame.size(); i++) {
             String description = i + 1 + "º Game";
-            dataset.addValue(pointsPerGame.get(i), "Puntos", description);
+            dataset.addValue(pointsPerGame.get(i), "Valoration:", description);
         }
         return dataset;
     }

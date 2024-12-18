@@ -13,6 +13,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
@@ -26,6 +27,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     
     WritingToExcel wte;
     GetDataExcel gde;
+    DataInPdf dip;
     
     CreateGraphics cg;
     CombinedChartExample cce;
@@ -42,6 +44,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         
         this.wte = new WritingToExcel();
         this.gde = new GetDataExcel();
+        this.dip = new DataInPdf();
+        
         this.cg = new CreateGraphics();
         
         this.cce = new CombinedChartExample();
@@ -53,6 +57,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         this.teamsDirectory = getDirectoryTreeTeams();
         
         initComponents();
+        pack();
+        setMinimumSize(new Dimension(730,770));
+        setResizable(false);
         
         JSpinner[] spinners = {spinnerT1a,spinnerT2a,spinnerT3a,spinnerTli,spinnerT2i,spinnerT3i,spinnerP};
         
@@ -162,11 +169,14 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         botonExportar = new javax.swing.JButton();
         graphicsLineButton = new javax.swing.JButton();
         graphicsBarLineButton = new javax.swing.JButton();
+        buttonExportPdf = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Calculadora de Estadisticas de la NBA");
+        setBackground(new java.awt.Color(255, 255, 255));
 
         PantallaPrincipal.setBackground(new java.awt.Color(255, 255, 255));
+        PantallaPrincipal.setMinimumSize(new java.awt.Dimension(730, 770));
         PantallaPrincipal.setPreferredSize(new java.awt.Dimension(730, 770));
 
         panelCabecera.setBackground(new java.awt.Color(0, 93, 53));
@@ -677,6 +687,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelEfg.add(donaEfg, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 150, 130));
 
+        fondoEfg.setBackground(new java.awt.Color(255, 255, 255));
         fondoEfg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoEfg.png"))); // NOI18N
         panelEfg.add(fondoEfg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 250));
 
@@ -711,6 +722,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelFg.add(donaFg, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 150, 130));
 
+        fondoFg.setBackground(new java.awt.Color(255, 255, 255));
         fondoFg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoFg.png"))); // NOI18N
         panelFg.add(fondoFg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
@@ -744,6 +756,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelTs.add(donaTs, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 150, 130));
 
+        fondoTs.setBackground(new java.awt.Color(255, 255, 255));
         fondoTs.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoTs.png"))); // NOI18N
         panelTs.add(fondoTs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 250));
 
@@ -780,6 +793,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
 
         panelValoration.add(donaValoration, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 150, 130));
 
+        fondoValoration.setBackground(new java.awt.Color(255, 255, 255));
         fondoValoration.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/newFondoValoration.png"))); // NOI18N
         panelValoration.add(fondoValoration, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 250));
 
@@ -789,12 +803,12 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 13, 0, 13);
         ContenedorCajasResultados.add(panelValoration, gridBagConstraints);
 
-        PantallaResultados.add(ContenedorCajasResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 620, 520));
+        PantallaResultados.add(ContenedorCajasResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, 620, 520));
 
         cabeceraResultados.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         cabeceraResultados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/IconoResultado.png"))); // NOI18N
         cabeceraResultados.setText("Resultados:");
-        PantallaResultados.add(cabeceraResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 260, -1));
+        PantallaResultados.add(cabeceraResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 260, -1));
 
         botonExcel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logoExcel.png"))); // NOI18N
         botonExcel1.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -807,7 +821,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 botonExcel1ActionPerformed(evt);
             }
         });
-        PantallaResultados.add(botonExcel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 580, -1, -1));
+        PantallaResultados.add(botonExcel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 610, -1, -1));
 
         botonExportar.setText("Exportar");
         botonExportar.setToolTipText("");
@@ -816,7 +830,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 botonExportarActionPerformed(evt);
             }
         });
-        PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 600, -1, -1));
+        PantallaResultados.add(botonExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 600, -1, -1));
 
         graphicsLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficoLineas.png"))); // NOI18N
         graphicsLineButton.addActionListener(new java.awt.event.ActionListener() {
@@ -824,7 +838,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 graphicsLineButtonActionPerformed(evt);
             }
         });
-        PantallaResultados.add(graphicsLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 590, -1, -1));
+        PantallaResultados.add(graphicsLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 610, -1, -1));
 
         graphicsBarLineButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/iconoGraficos.png"))); // NOI18N
         graphicsBarLineButton.addActionListener(new java.awt.event.ActionListener() {
@@ -832,7 +846,15 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
                 graphicsBarLineButtonActionPerformed(evt);
             }
         });
-        PantallaResultados.add(graphicsBarLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 590, -1, -1));
+        PantallaResultados.add(graphicsBarLineButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 610, -1, -1));
+
+        buttonExportPdf.setText("Export PDF");
+        buttonExportPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExportPdfActionPerformed(evt);
+            }
+        });
+        PantallaResultados.add(buttonExportPdf, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 630, -1, -1));
 
         javax.swing.GroupLayout tabValoracionLayout = new javax.swing.GroupLayout(tabValoracion);
         tabValoracion.setLayout(tabValoracionLayout);
@@ -846,9 +868,8 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         tabValoracionLayout.setVerticalGroup(
             tabValoracionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tabValoracionLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(PantallaResultados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(41, 41, 41))
+                .addComponent(PantallaResultados, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Resultados", tabValoracion);
@@ -881,7 +902,9 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PantallaPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
@@ -1222,7 +1245,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         DefaultCategoryDataset dataset = clc.createDataset(nums);
 
         // Creamos el gráfico de líneas con los datos
-        JFreeChart chart = clc.createLineChart(dataset, "Gráfico de Líneas", Color.BLUE, Color.LIGHT_GRAY);
+        JFreeChart chart = clc.createLineChart(dataset, "Valoration:", Color.BLUE, Color.LIGHT_GRAY);
 
         // Ruta relativa de la imagen donde se guardará
         String relativePath = teamsDirectory.get(mapData.get("Equipo")).get(mapData.get("Jugador"));
@@ -1247,6 +1270,55 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
         saveAndShowInJFrame(chart,relativePath,"Puntos",mapData.get("Equipo"));
         
     }//GEN-LAST:event_graphicsBarLineButtonActionPerformed
+
+    private void buttonExportPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExportPdfActionPerformed
+        HashMap<String,String> mapData = getHashMapData();
+        
+        System.out.println(mapData.get("Equipo"));
+        
+        List<Double> numsOne = gde.getData(mapData.get("Equipo"),mapData.get("Jugador"),"Valoration");
+        
+        // Creamos un grafico de barras y lineas combinado
+        DefaultCategoryDataset datasetOne = clc.createDataset(numsOne);
+
+        // Creamos el gráfico de líneas con los datos
+        JFreeChart chartOne = clc.createLineChart(datasetOne ,"Gráfico de Líneas", Color.BLUE, Color.LIGHT_GRAY);
+
+        // Ruta relativa de la imagen donde se guardará
+        String relativePathOne = teamsDirectory.get(mapData.get("Equipo")).get(mapData.get("Jugador"));
+        
+        List<Double> numsTwo = gde.getData(mapData.get("Equipo"),mapData.get("Jugador"),"Puntos");
+        
+        // Creamos un grafico de barras y lineas combinado
+        JFreeChart chartTwo = cce.createCombinedChart("Puntos:" + mapData.get("Jugador"), "Puntos", numsTwo);
+
+        // Ruta relativa de la imagen donde se guardará
+        String relativePathTwo = teamsDirectory.get(mapData.get("Equipo")).get(mapData.get("Jugador"));
+        
+        String fileName = "equipo_estadisticas.pdf";
+        try {
+            dip.createPdf(
+                    fileName, 
+                    mapData.get("Equipo"),
+                    mapData.get("Jugador"), 
+                    chartOne, 
+                    chartTwo, 
+                    Double.parseDouble(mapData.get("TCA")), 
+                    Double.parseDouble(mapData.get("%FG").replace(",", ".")), 
+                    Double.parseDouble(mapData.get("%eFG").replace(",", ".")), 
+                    Double.parseDouble(mapData.get("%TS").replace(",", "."))
+            );
+
+            // Open the PDF file
+            dip.openPdf(fileName);
+            
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        // Generate PDF
+        
+        
+    }//GEN-LAST:event_buttonExportPdfActionPerformed
     
     /**
      * Este método guarda en la ruta y muestra en un jframe el chart
@@ -1323,6 +1395,7 @@ public class InterfazBaloncesto extends javax.swing.JFrame {
     private javax.swing.JButton botonExportar;
     private javax.swing.JButton botonGlosario;
     private javax.swing.JButton botonResetear;
+    private javax.swing.JButton buttonExportPdf;
     private javax.swing.JLabel cabeceraDatos;
     private javax.swing.JLabel cabeceraResultados;
     private javax.swing.JComboBox<String> comboEquipos;
